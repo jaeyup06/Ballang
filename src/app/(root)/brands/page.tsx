@@ -15,7 +15,7 @@ type Brand = {
   nameKr: string;
 };
 
-function page() {
+function BrandsPage() {
   const [brands, setBrands] = useState<Brand[]>([]);
   const [selectedBrand, setBrand] = useState("all");
 
@@ -55,4 +55,4 @@ function page() {
   );
 }
 
-export default page;
+export default BrandsPage;
