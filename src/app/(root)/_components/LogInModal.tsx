@@ -1,4 +1,4 @@
-function LogInPage() {
+function LogInModal() {
   return (
     <form>
       <input type="text" placeholder="아이디" />
@@ -7,4 +7,4 @@ function LogInPage() {
   )
 }
 
-export default LogInPage;
+export default LogInModal;
