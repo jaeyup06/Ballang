@@ -18,12 +18,18 @@ type Product = {
   name: string;
   brand: {
     nameEn: string;
+    nameKr: string;
   };
   originalPrice: number;
   price: number;
 };
 
-function ProductList() {
+type ProductListProps = {
+  brand: string;
+};
+
+function ProductList({ brand }: ProductListProps) {
+  console.log(brand);
   const [products, setProducts] = useState<Product[]>([]);
 
   const formatPrice = (price: number) => {
@@ -31,11 +37,17 @@ function ProductList() {
   };
 
   useEffect(() => {
-    axios(option).then((response) => {
-      console.log(response.data.result);
-      setProducts(response.data.result as Product[]);
+    axios(option).then(response => {
+      const allProducts = response.data.result as Product[];
+      
+      if (brand === "all") {
+        setProducts(allProducts);
+      } else {
+        const Products = allProducts.filter(product => product.brand.nameKr === brand);
+        setProducts(Products);
+      }
     });
-  }, []);
+  }, [brand]);
 
   return (
     <ul className="grid grid-cols-6 gap-8 p-8">
