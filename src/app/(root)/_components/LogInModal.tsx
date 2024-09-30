@@ -9,7 +9,7 @@ function LogInModal() {
       {!closeModal && (
         <section
           onClick={() => setCloseModal(true)}
-          className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50"
+          className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-10"
         >
           <form
             className="bg-white p-5 rounded-lg"
