@@ -1,14 +1,20 @@
-"useClient";
+"use client";
 
 import { useState } from "react";
 
-function LogInModal() {
+function LogInModal({ onClose }: { onClose: () => void }) {
   const [closeModal, setCloseModal] = useState(false);
+
+  const handleModalClose = () => {
+    setCloseModal(true);
+    onClose();
+  };
+
   return (
     <>
       {!closeModal && (
         <section
-          onClick={() => setCloseModal(true)}
+          onClick={handleModalClose}
           className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-10"
         >
           <form
@@ -27,7 +33,9 @@ function LogInModal() {
               type="password"
               className="block mb-10 p-3 border rounded w-full"
             />
-            <button className="bg-black mb-3 text-white font-bold py-4 w-full">로그인하기</button>
+            <button className="bg-black mb-3 text-white font-bold py-4 w-full">
+              로그인하기
+            </button>
           </form>
         </section>
       )}
