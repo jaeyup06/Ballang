@@ -1,6 +1,8 @@
 function HomePage() {
   return (
-    <h1>여긴 HomePage</h1>
+    <main>
+      <h1 className="text-center mt-[88px] text-3xl font-bold">Trending</h1>
+    </main>
   );
 }
 
