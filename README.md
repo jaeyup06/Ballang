@@ -1,10 +1,12 @@
-# 셀프 체크리스트
+### [사이트 보러가기](https://ballang-ivory.vercel.app/)
+
+### 체크리스트
 
 - Tech Stack
     - [x]  Next.js의 App Router를 사용하였는가
     - [x]  Typescript만으로 작성하였는가
     - [x]  Tailwind CSS로 스타일링 하였는가
-    - [ ]  Axios를 사용하여 api 호출을 구현하였는가
+    - [x]  Axios를 사용하여 api 호출을 구현하였는가
     - [ ]  Zustand를 필요한 곳에 적절히 사용하였는가
     - [ ]  React Query를 필요한 곳에 적절히 사용하였는가
 - Features
