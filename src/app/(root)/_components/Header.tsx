@@ -11,7 +11,7 @@ function Header() {
   return (
     <>
       {isLogInModalOpen && <LogInModal onClose={() => setIsLogInModalOpen(false)} />}
-      <header className="h-16 border-b flex justify-between items-center px-7 font-light">
+      <header className="fixed top-0 left-0 right-0 h-16 border-b flex justify-between items-center px-7 font-light bg-white z-10">
         <div className="flex items-center gap-20">
           <Link href={"/"} className="text-2xl font-bold">
             발랑

@@ -25,7 +25,7 @@ async function BrandsPage(props: BrandsPageProps) {
 
   return (
     <main>
-      <h1 className="text-center mt-[88px] text-3xl font-bold">Brands</h1>
+      <h1 className="text-center mt-[152px] text-3xl font-bold">Brands</h1>
       <p
         className={`${
           selectedBrand.nameKr === "all"
