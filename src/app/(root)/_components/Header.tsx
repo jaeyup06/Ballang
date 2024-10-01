@@ -7,10 +7,12 @@ import { logOut } from "@/api/auth.api";
 
 function Header() {
   const { currentUser, setCurrentUser } = useAuthStore();
+  const clearUserEmailStorage = useAuthStore.persist.clearStorage;
 
   const handleClickLogOut = async () => {
     await logOut();
     setCurrentUser(null);
+    clearUserEmailStorage();
   };
 
   return (
