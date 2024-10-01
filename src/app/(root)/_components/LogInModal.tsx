@@ -10,7 +10,6 @@ type LogInModalProps = {
 
 function LogInModal({ className, title }: LogInModalProps) {
   const [showModal, setShowModal] = useState(false);
-  console.log(title);
 
   return (
     <>

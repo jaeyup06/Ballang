@@ -23,7 +23,6 @@ type ProductListProps = {
 };
 
 function ProductList({ brand }: ProductListProps) {
-  console.log(brand);
   const [products, setProducts] = useState<Product[]>([]);
 
   const formatPrice = (price: number) => {

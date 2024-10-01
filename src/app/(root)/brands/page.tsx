@@ -21,8 +21,6 @@ async function BrandsPage(props: BrandsPageProps) {
     ? brands.find((brand) => brand.id === +brandId) as Brand
     : { id: 0, nameKr: "all" };
 
-  console.log(selectedBrand);
-
   return (
     <main>
       <h1 className="text-center mt-[152px] text-3xl font-bold">Brands</h1>
