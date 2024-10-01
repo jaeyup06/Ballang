@@ -45,7 +45,7 @@ function SignUpPage() {
     }
     alert("회원가입이 완료되었습니다.");
     await logIn(email, password);
-    setCurrentUser({ email });
+    setCurrentUser({ email, password });
     router.push("/");
   };
 

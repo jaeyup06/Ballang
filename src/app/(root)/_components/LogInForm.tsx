@@ -33,7 +33,7 @@ function LogInForm({ isLogInCompletion }: LogInFormProps) {
       alert("로그인에 실패하였습니다");
       return;
     }
-    setCurrentUser({ email });
+    setCurrentUser({ email, password });
     isLogInCompletion(true);
   };
 

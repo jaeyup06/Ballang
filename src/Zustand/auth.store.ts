@@ -2,8 +2,8 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 type AuthStoreState = {
-  currentUser: { email: string } | null;
-  setCurrentUser: (user: { email: string } | null) => void;
+  currentUser: { email: string; password: string } | null;
+  setCurrentUser: (user: { email: string; password: string } | null) => void;
 };
 
 export const useAuthStore = create<AuthStoreState>()(
@@ -11,6 +11,6 @@ export const useAuthStore = create<AuthStoreState>()(
     currentUser: null,
     setCurrentUser: (user) => set({ currentUser: user }),
   }), {
-    name: "userEmailStorage",
+    name: "userStorage",
   })
 );
