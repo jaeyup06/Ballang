@@ -1,21 +1,19 @@
-"use client";
-import { signUp } from "@/api/auth.api";
-import { useRouter } from "next/navigation";
+import { logIn } from "@/api/auth.api";
 import { useRef } from "react";
 
-function SignUpPage() {
-  const router = useRouter();
+type LogInFormProps = {
+  isLogInCompletion: (isSuccess: boolean) => void;
+}
 
+function LogInForm({ isLogInCompletion }: LogInFormProps) {
   const emailInputRef = useRef<HTMLInputElement | null>(null);
   const passwordInputRef = useRef<HTMLInputElement | null>(null);
-  const confirmPasswordInputRef = useRef<HTMLInputElement | null>(null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const email = emailInputRef.current?.value;
     const password = passwordInputRef.current?.value;
-    const confirmPassword = confirmPasswordInputRef.current?.value;
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!email || !emailPattern.test(email)) {
@@ -26,31 +24,23 @@ function SignUpPage() {
       alert("비밀번호를 입력해 주세요");
       return;
     }
-    if (!confirmPassword) {
-      alert("비밀번호 확인을 입력해 주세요");
-      return;
-    }
-    if (password !== confirmPassword) {
-      alert("비밀번호와 비밀번호 확인이 다릅니다");
-      return;
-    }
 
     try {
-      await signUp(email, password);
+      await logIn(email, password);
+      isLogInCompletion(true)
     } catch {
-      alert("회원가입에 실패하였습니다");
-      return
+      alert("로그인에 실패하였습니다");
+      return;
     }
-    alert("회원가입이 완료되었습니다.");
-    router.push("/");
   };
 
   return (
     <form
       onSubmit={handleSubmit}
-      className="w-[400px] mt-[64px] m-auto bg-white p-5 rounded-lg"
+      className="bg-white p-5 rounded-lg"
+      onClick={(e) => e.stopPropagation()}
     >
-      <h1 className="text-center font-bold mt-16 mb-10 text-3xl">회원가입</h1>
+      <h1 className="text-center font-bold mt-16 mb-10 text-3xl">로그인</h1>
       <h2 className="font-light mb-1">이메일</h2>
       <input
         type="text"
@@ -61,20 +51,14 @@ function SignUpPage() {
       <h2 className="font-light mb-1">비밀번호</h2>
       <input
         type="password"
-        className="block mb-4 p-3 border rounded w-full"
+        className="block mb-10 p-3 border rounded w-full"
         ref={passwordInputRef}
       />
-      <h2 className="font-light mb-1">비밀번호 확인</h2>
-      <input
-        type="password"
-        className="block mb-10 p-3 border rounded w-full"
-        ref={confirmPasswordInputRef}
-      />
       <button className="bg-black mb-3 text-white font-bold py-4 w-full">
-        회원가입하기
+        로그인하기
       </button>
     </form>
   );
 }
 
-export default SignUpPage;
+export default LogInForm;
