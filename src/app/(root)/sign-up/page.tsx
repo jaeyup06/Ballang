@@ -1,9 +1,11 @@
 "use client";
-import { signUp } from "@/api/auth.api";
+import { logIn, signUp } from "@/api/auth.api";
+import { useAuthStore } from "@/Zustand/auth.store";
 import { useRouter } from "next/navigation";
 import { useRef } from "react";
 
 function SignUpPage() {
+  const setCurrentUser = useAuthStore((state) => state.setCurrentUser);
   const router = useRouter();
 
   const emailInputRef = useRef<HTMLInputElement | null>(null);
@@ -39,9 +41,11 @@ function SignUpPage() {
       await signUp(email, password);
     } catch {
       alert("회원가입에 실패하였습니다");
-      return
+      return;
     }
     alert("회원가입이 완료되었습니다.");
+    await logIn(email, password);
+    setCurrentUser({ email });
     router.push("/");
   };
 

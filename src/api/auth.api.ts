@@ -25,3 +25,11 @@ export async function logIn(email: string, password: string) {
   );
   return response.data.result;
 }
+
+export async function logOut() {
+  const response = await axios.delete(
+    "https://api.ballang.yoojinyoung.com/auth/log-out"
+  );
+
+  return response;
+}

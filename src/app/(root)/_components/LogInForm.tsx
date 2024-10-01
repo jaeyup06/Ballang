@@ -1,11 +1,13 @@
 import { logIn } from "@/api/auth.api";
+import { useAuthStore } from "@/Zustand/auth.store";
 import { useRef } from "react";
 
 type LogInFormProps = {
   isLogInCompletion: (isSuccess: boolean) => void;
-}
+};
 
 function LogInForm({ isLogInCompletion }: LogInFormProps) {
+  const setCurrentUser = useAuthStore((state) => state.setCurrentUser);
   const emailInputRef = useRef<HTMLInputElement | null>(null);
   const passwordInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -27,11 +29,12 @@ function LogInForm({ isLogInCompletion }: LogInFormProps) {
 
     try {
       await logIn(email, password);
-      isLogInCompletion(true)
     } catch {
       alert("로그인에 실패하였습니다");
       return;
     }
+    setCurrentUser({ email });
+    isLogInCompletion(true);
   };
 
   return (

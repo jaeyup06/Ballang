@@ -1,11 +1,17 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
 import LogInModal from "./LogInModal";
+import { useAuthStore } from "@/Zustand/auth.store";
+import { logOut } from "@/api/auth.api";
 
 function Header() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { currentUser, setCurrentUser } = useAuthStore();
+
+  const handleClickLogOut = async () => {
+    await logOut();
+    setCurrentUser(null);
+  };
 
   return (
     <header className="fixed top-0 left-0 right-0 h-16 border-b flex justify-between items-center px-7 font-light bg-white z-10">
@@ -15,10 +21,10 @@ function Header() {
         </Link>
         <Link href={"/brands"}>BRANDS</Link>
       </div>
-      {isLoggedIn ? (
+      {!!currentUser?.email ? (
         <div className="flex gap-5">
           <Link href={"/cart"}>장바구니</Link>
-          <button onClick={() => setIsLoggedIn(!isLoggedIn)}>로그아웃</button>
+          <button onClick={handleClickLogOut}>로그아웃</button>
         </div>
       ) : (
         <div className="flex gap-5">
