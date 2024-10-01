@@ -2,15 +2,9 @@
 /* eslint-disable jsx-a11y/alt-text */
 "use client";
 
-import axios from "axios";
+import { getProducts } from "@/api/products.api";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-
-const option = {
-  url: "https://api.ballang.yoojinyoung.com/products",
-  method: "GET",
-  withCredentials: true,
-};
 
 type Product = {
   id: number;
@@ -37,31 +31,26 @@ function ProductList({ brand }: ProductListProps) {
   };
 
   useEffect(() => {
-    axios(option).then(response => {
-      const allProducts = response.data.result as Product[];
-      
+    const fetchProducts = async () => {
+      const products = await getProducts();
       if (brand === "all") {
-        setProducts(allProducts);
+        setProducts(products);
       } else {
-        const Products = allProducts.filter(product => product.brand.nameKr === brand);
-        setProducts(Products);
+        const product = products.filter(
+          (product: Product) => product.brand.nameKr === brand
+        );
+        setProducts(product);
       }
-    });
+    };
+
+    fetchProducts();
   }, [brand]);
 
   return (
     <ul className="grid grid-cols-6 gap-8 p-8">
       {products.map((product) => (
         <li className="flex flex-col" key={product.id}>
-          <Link
-            className="group"
-            href={{
-              pathname: `/products`,
-              query: {
-                productId: product.id,
-              },
-            }}
-          >
+          <Link className="group" href={`/products/${product.id}`}>
             <img
               className="h-[300px] object-cover transition-transform duration-100 transform group-hover:scale-105"
               src={product.imgSrc}

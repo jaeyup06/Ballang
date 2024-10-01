@@ -1,56 +1,60 @@
-"use client";
-
-import { useEffect, useState } from "react";
+import Link from "next/link";
 import ProductList from "../_components/ProductList";
-import axios from "axios";
-
-const option = {
-  url: "https://api.ballang.yoojinyoung.com/brands",
-  method: "GET",
-  withCredentials: true,
-};
+import { getBrands } from "@/api/brands.api";
 
 type Brand = {
   id: number;
   nameKr: string;
 };
 
-function BrandsPage() {
-  const [brands, setBrands] = useState<Brand[]>([]);
-  const [selectedBrand, setBrand] = useState("all");
+type BrandsPageProps = {
+  searchParams: {
+    brandId?: string;
+  };
+};
 
-  useEffect(() => {
-    axios(option).then((response) => {
-      console.log(response.data.result);
-      setBrands(response.data.result as Brand[]);
-    });
-  }, []);
+async function BrandsPage(props: BrandsPageProps) {
+  const brandId = props.searchParams.brandId;
+  const brands: Brand[] = await getBrands();
+
+  const selectedBrand = brandId
+    ? brands.find((brand) => brand.id === +brandId) as Brand
+    : { id: 0, nameKr: "all" };
+
+  console.log(selectedBrand);
 
   return (
     <main>
       <h1 className="text-center mt-[88px] text-3xl font-bold">Brands</h1>
-      <h2
-        className={`cursor-pointer text-center mt-12 text-gray-600 w-full inline-block hover:text-black ${
-          selectedBrand === "all" ? "font-bold text-black" : ""
-        }`}
-        onClick={() => setBrand("all")}
+      <p
+        className={`${
+          selectedBrand.nameKr === "all"
+            ? "font-bold text-black"
+            : "text-gray-600"
+        }
+        text-center mt-12 hover:text-black`}
       >
-        ALL
-      </h2>
+        <Link className="cursor-pointer" href="/brands">
+          ALL
+        </Link>
+      </p>
       <ul className="w-[800px] grid grid-cols-6 gap-4 mx-auto my-8">
         {brands.map((brand) => (
-          <li
-            key={brand.id}
-            className={`cursor-pointer text-center text-gray-600 hover:text-black ${
-              selectedBrand === brand.nameKr ? "font-bold text-black" : ""
-            }`}
-            onClick={() => setBrand(brand.nameKr)}
-          >
-            {brand.nameKr}
+          <li key={brand.id}>
+            <div
+              className={`${
+                selectedBrand.nameKr === brand.nameKr
+                  ? "font-bold text-black"
+                  : "text-gray-600"
+              }
+              cursor-pointer text-center hover:text-black `}
+            >
+              <Link href={`/brands?brandId=${brand.id}`}>{brand.nameKr}</Link>
+            </div>
           </li>
         ))}
       </ul>
-      <ProductList brand={`${selectedBrand}`} />
+      <ProductList brand={selectedBrand.nameKr} />
     </main>
   );
 }
