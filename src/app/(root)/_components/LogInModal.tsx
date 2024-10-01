@@ -2,26 +2,32 @@
 
 import { useState } from "react";
 
-function LogInModal({ onClose }: { onClose: () => void }) {
-  const [closeModal, setCloseModal] = useState(false);
+type LogInModalProps = {
+  className: string;
+  title: string;
+};
 
-  const handleModalClose = () => {
-    setCloseModal(true);
-    onClose();
-  };
+function LogInModal({ className, title }: LogInModalProps) {
+  const [showModal, setShowModal] = useState(false);
+  console.log(title);
 
   return (
     <>
-      {!closeModal && (
+      <button className={`${className}`} onClick={() => setShowModal(true)}>
+        {title}
+      </button>
+      {showModal && (
         <section
-          onClick={handleModalClose}
+          onClick={() => setShowModal(false)}
           className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-10"
         >
           <form
             className="bg-white p-5 rounded-lg"
             onClick={(e) => e.stopPropagation()}
           >
-            <h1 className="text-center font-bold mt-16 mb-10 text-3xl">로그인</h1>
+            <h1 className="text-center font-bold mt-16 mb-10 text-3xl">
+              로그인
+            </h1>
             <h2 className="font-light mb-1">이메일</h2>
             <input
               type="text"
