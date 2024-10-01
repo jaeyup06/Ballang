@@ -36,7 +36,7 @@ async function BrandsPage(props: BrandsPageProps) {
           ALL
         </Link>
       </p>
-      <ul className="w-[800px] grid grid-cols-6 gap-4 mx-auto my-8">
+      <ul className="md:w-[800px] grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-4 mx-auto my-8">
         {brands.map((brand) => (
           <li key={brand.id}>
             <div

@@ -46,17 +46,19 @@ function ProductList({ brand }: ProductListProps) {
   }, [brand]);
 
   return (
-    <ul className="grid grid-cols-6 gap-8 p-8">
+    <ul className="grid 2xl:grid-cols-6 xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-8 p-[calc(14px+1vw)]">
       {products.map((product) => (
         <li className="flex flex-col" key={product.id}>
           <Link className="group" href={`/products/${product.id}`}>
-            <img
-              className="h-[300px] object-cover transition-transform duration-100 transform group-hover:scale-105"
-              src={product.imgSrc}
-            />
+            <div className="relative w-full" style={{ aspectRatio: "3 / 4" }}>
+              <img
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-100 transform group-hover:scale-105"
+                src={product.imgSrc}
+              />
+            </div>
             <h2 className="mt-4 font-bold">{product.brand.nameEn}</h2>
             <h2 className="mt-1 font-light">{product.name}</h2>
-            <div className="flex gap-2 mt-3 mb-3 font-semibold text-sm">
+            <div className="flex flex-col sm:flex-row gap-2 mt-3 mb-3 font-semibold text-sm">
               <span className="line-through text-red-500">
                 ₩{formatPrice(product.originalPrice)}
               </span>

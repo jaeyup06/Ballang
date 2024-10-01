@@ -29,13 +29,11 @@ async function page(props: { params: { productsId: string } }) {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
 
-  console.log(product);
-
   return (
-    <main>
-      <div className="mt-[100px] mb-[34px] max-w-[960px] mx-auto bg-white rounded-lg flex gap-6">
-        <img src={`${product.imgSrc}`} className="w-1/2" />
-        <div className="pt-8 w-1/2">
+    <main className="p-5 lg:p-0">
+      <div className="mt-[100px] mb-[34px] max-w-[960px] mx-auto bg-white rounded-lg flex gap-6 flex-col sm:flex-row">
+        <img src={`${product.imgSrc}`} className="w-full sm:w-1/2" />
+        <div className="pt-8 w-full sm:w-1/2">
           <Link
             className="text-md font-semibold"
             href={`/brands?brandId=${product.brandId}`}
