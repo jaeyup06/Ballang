@@ -2,32 +2,27 @@
 
 import Link from "next/link";
 import LogInModal from "./LogInModal";
-import { useAuthStore } from "@/Zustand/auth.store";
-import { logIn, logOut } from "@/api/auth.api";
+import { logOut, refreshToken } from "@/api/auth.api";
 import { useEffect, useState } from "react";
 
 function Header() {
-  const { currentUser, setCurrentUser } = useAuthStore();
-  const clearUserStorage = useAuthStore.persist?.clearStorage;
   const [loading, setLoading] = useState(true);
-
-  const loginUser = async () => {
-    if (currentUser) {
-      await logIn(currentUser.email, currentUser.password);
-    }
-    setLoading(false);
-  };
+  const [accessToken, setAccessToken] = useState(null);
 
   useEffect(() => {
-    loginUser();
-  }, [currentUser]);
+    const fetchData = async () => {
+      const token = await refreshToken();
+      setAccessToken(token);
+      setLoading(false);
+      console.log(token);
+    };
+
+    fetchData();
+  }, []);
 
   const handleClickLogOut = async () => {
     await logOut();
-    setCurrentUser(null);
-    if (clearUserStorage) {
-      clearUserStorage();
-    }
+    setAccessToken(null);
   };
 
   return (
@@ -38,7 +33,7 @@ function Header() {
         </Link>
         <Link href={"/brands"}>BRANDS</Link>
       </div>
-      {currentUser?.email ? (
+      {accessToken ? (
         <div className="flex gap-5">
           <Link href={"/cart"}>장바구니</Link>
           <button onClick={handleClickLogOut}>로그아웃</button>
