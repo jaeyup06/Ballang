@@ -1,9 +1,4 @@
-import axios from "axios";
-
-const apiClient = axios.create({
-  baseURL: "https://api.ballang.yoojinyoung.com/auth",
-  withCredentials: true,
-});
+import { apiAxios } from "./api";
 
 export async function signUp(email: string, password: string) {
   const data = {
@@ -11,7 +6,7 @@ export async function signUp(email: string, password: string) {
     password,
   };
 
-  const response = await apiClient.post("/sign-up", data);
+  const response = await apiAxios.post("/auth/sign-up", data);
   return response.data.result;
 }
 
@@ -21,16 +16,16 @@ export async function logIn(email: string, password: string) {
     password,
   };
 
-  const response = await apiClient.post("/log-in", data);
+  const response = await apiAxios.post("/auth/log-in", data);
   return response.data.result;
 }
 
 export async function logOut() {
-  const response = await apiClient.delete("/log-out");
+  const response = await apiAxios.delete("/auth/log-out");
   return response.data.result;
 }
 
 export async function refreshToken() {
-  const response = await apiClient.get("/refresh-token");
+  const response = await apiAxios.get("/auth/refresh-token");
   return response.data.result;
 }

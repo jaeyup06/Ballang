@@ -1,12 +1,11 @@
-import axios from "axios";
+import { apiAxios } from "./api";
 
 export async function getBrands() {
-  const option = {
-    url: "https://api.ballang.yoojinyoung.com/brands",
+  const data = {
     method: "GET",
     withCredentials: true,
   };
 
-  const response = await axios(option);
+  const response = await apiAxios("/brands", data);
   return response.data.result;
 }

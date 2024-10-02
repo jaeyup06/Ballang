@@ -14,7 +14,6 @@ function Header() {
       const token = await refreshToken();
       setAccessToken(token);
       setLoading(false);
-      console.log(token);
     };
 
     fetchData();
