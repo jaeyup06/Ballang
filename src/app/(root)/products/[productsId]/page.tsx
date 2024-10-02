@@ -19,11 +19,12 @@ type Product = {
   };
 };
 
-async function page(props: { params: { productsId: string } }) {
+async function ProductsDetailPage(props: { params: { productsId: string } }) {
   const products: Product[] = await getProducts();
   const product: NonNullable<Product> = products.find(
     (product) => product.id === +props.params.productsId
   ) as Product;
+  console.log(product)
 
   const formatPrice = (price: number) => {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -61,4 +62,4 @@ async function page(props: { params: { productsId: string } }) {
   );
 }
 
-export default page;
+export default ProductsDetailPage;

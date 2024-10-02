@@ -4,16 +4,19 @@ import Link from "next/link";
 import LogInModal from "./LogInModal";
 import { logOut, refreshToken } from "@/api/auth.api";
 import { useEffect, useState } from "react";
+import { useAuthStore } from "@/app/zustand/auth.store";
 
 function Header() {
+  const { isLoggedIn, setIsLoggedIn, setIsAuthInitialized } = useAuthStore();
   const [loading, setLoading] = useState(true);
-  const [accessToken, setAccessToken] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       const token = await refreshToken();
-      setAccessToken(token);
       setLoading(false);
+      if (token) setIsLoggedIn(true);
+
+      setIsAuthInitialized(true);
     };
 
     fetchData();
@@ -21,7 +24,7 @@ function Header() {
 
   const handleClickLogOut = async () => {
     await logOut();
-    setAccessToken(null);
+    setIsLoggedIn(false);
   };
 
   return (
@@ -32,7 +35,7 @@ function Header() {
         </Link>
         <Link href={"/brands"}>BRANDS</Link>
       </div>
-      {accessToken ? (
+      {isLoggedIn ? (
         <div className="flex gap-5">
           <Link href={"/cart"}>장바구니</Link>
           <button onClick={handleClickLogOut}>로그아웃</button>

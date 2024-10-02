@@ -1,4 +1,5 @@
 import { logIn } from "@/api/auth.api";
+import { useAuthStore } from "@/app/zustand/auth.store";
 import { useRef } from "react";
 
 type LogInFormProps = {
@@ -6,6 +7,7 @@ type LogInFormProps = {
 };
 
 function LogInForm({ isLogInCompletion }: LogInFormProps) {
+  const { setIsLoggedIn } = useAuthStore();
   const emailInputRef = useRef<HTMLInputElement | null>(null);
   const passwordInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -31,6 +33,7 @@ function LogInForm({ isLogInCompletion }: LogInFormProps) {
       alert("로그인에 실패하였습니다");
       return;
     }
+    setIsLoggedIn(true);
     isLogInCompletion(true);
   };
 

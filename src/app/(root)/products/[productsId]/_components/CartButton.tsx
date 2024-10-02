@@ -1,8 +1,8 @@
 "use client";
 
-import { refreshToken } from "@/api/auth.api";
 import { addItemToCart, clearItemInCart, getCart } from "@/api/cart.api";
 import LogInModal from "@/app/(root)/_components/LogInModal";
+import { useAuthStore } from "@/app/zustand/auth.store";
 import { useEffect, useState } from "react";
 
 type Cart = {
@@ -10,26 +10,21 @@ type Cart = {
 };
 
 function CartButton({ productId }: { productId: number }) {
-  const [accessToken, setAccessToken] = useState(null);
+  const { isLoggedIn, isAuthInitialized } = useAuthStore();
   const [isProduct, setIsProduct] = useState(false);
 
   useEffect(() => {
     const checkProductInCart = async () => {
-      const cartList: Cart = await getCart();
-      setIsProduct(cartList.items.some((item) => item.productId === productId));
+      if (isLoggedIn) {
+        const cartList: Cart = await getCart();
+        setIsProduct(
+          cartList.items.some((item) => item.productId === productId)
+        );
+      }
     };
 
     checkProductInCart();
   }, [productId]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const token = await refreshToken();
-      setAccessToken(token);
-    };
-
-    fetchData();
-  }, []);
 
   const handleClickProductGet = async () => {
     await addItemToCart(productId);
@@ -43,8 +38,8 @@ function CartButton({ productId }: { productId: number }) {
 
   return (
     <>
-      {accessToken ? (
-        isProduct ? (
+      {isLoggedIn ? (
+        isProduct || isAuthInitialized ? (
           <button
             onClick={handleClickProductDelete}
             className="border border-black font-bold py-4 w-full mt-4"

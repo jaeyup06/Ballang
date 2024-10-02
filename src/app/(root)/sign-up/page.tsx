@@ -1,9 +1,11 @@
 "use client";
 import { logIn, signUp } from "@/api/auth.api";
+import { useAuthStore } from "@/app/zustand/auth.store";
 import { useRouter } from "next/navigation";
 import { useRef } from "react";
 
 function SignUpPage() {
+  const { setIsLoggedIn } = useAuthStore();
   const router = useRouter();
 
   const emailInputRef = useRef<HTMLInputElement | null>(null);
@@ -43,6 +45,7 @@ function SignUpPage() {
     }
     alert("회원가입이 완료되었습니다.");
     await logIn(email, password);
+    setIsLoggedIn(true);
     router.push("/");
   };
 
