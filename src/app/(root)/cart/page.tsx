@@ -5,7 +5,12 @@
 import { refreshToken } from "@/api/auth.api";
 import { useEffect, useState, MouseEvent } from "react";
 import LogInForm from "../_components/LogInForm";
-import { addItemToCart, clearItemInCart, getCart, removeItemFromCart } from "@/api/cart.api";
+import {
+  addItemToCart,
+  clearItemInCart,
+  getCart,
+  removeItemFromCart,
+} from "@/api/cart.api";
 import Link from "next/link";
 
 type CartItem = {
@@ -23,29 +28,24 @@ type CartItem = {
     onlineStock: number;
   };
   quantity: number;
-}
+};
 
 function CartPage() {
   const [loading, setLoading] = useState(true);
-  const [accessToken, setAccessToken] = useState<string | null>(null); // 타입 명시
-  const [cartItems, setCartItems] = useState<CartItem[]>([]); // 타입 명시
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      if (accessToken) {
-        const carts = await getCart();
-        setCartItems(carts.items as CartItem[]);
-      }
-      setLoading(false);
-    };
-
-    fetchProducts();
-  }, [accessToken]);
+  const [accessToken, setAccessToken] = useState<string | null>(null);
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
       const token = await refreshToken();
       setAccessToken(token);
+
+      if (token) {
+        const carts = await getCart();
+        setCartItems(carts.items as CartItem[]);
+      }
+
+      setLoading(false);
     };
 
     fetchData();
@@ -55,9 +55,12 @@ function CartPage() {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
 
-  const handleClickCartNumber = async (e: MouseEvent<HTMLButtonElement>, item: CartItem, isPlus: boolean) => {
+  const handleClickCartNumber = async (
+    e: MouseEvent<HTMLButtonElement>,
+    item: CartItem,
+    isPlus: boolean
+  ) => {
     e.preventDefault();
-    console.log(item.quantity);
     if (isPlus) {
       await addItemToCart(item.product.id);
     } else {
@@ -139,9 +142,11 @@ function CartPage() {
           </div>
         )
       ) : (
-        <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-10">
-          <LogInForm isLogInCompletion={() => false} />
-        </div>
+        !loading && (
+          <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-10">
+            <LogInForm isLogInCompletion={() => false} />
+          </div>
+        )
       )}
     </main>
   );
