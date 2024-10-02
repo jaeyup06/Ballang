@@ -1,8 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable jsx-a11y/alt-text */
 import { getProducts } from "@/api/products.api";
-import LogInModal from "../../_components/LogInModal";
 import Link from "next/link";
+import CartButton from "./_components/CartButton";
 
 type Product = {
   id: number;
@@ -54,10 +54,7 @@ async function page(props: { params: { productsId: string } }) {
             <li className="font-bold">잔여 재고</li>
             <li>{product.onlineStock}</li>
           </ul>
-          <LogInModal
-            className="bg-black text-white font-bold py-4 w-full mt-4"
-            title="장바구니에 담기"
-          />
+          <CartButton productId={product.id} />
         </div>
       </div>
     </main>
