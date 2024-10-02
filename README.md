@@ -7,7 +7,7 @@
     - [x]  Typescript만으로 작성하였는가
     - [x]  Tailwind CSS로 스타일링 하였는가
     - [x]  Axios를 사용하여 api 호출을 구현하였는가
-    - [x]  Zustand를 필요한 곳에 적절히 사용하였는가
+    - [ ]  Zustand를 필요한 곳에 적절히 사용하였는가
     - [ ]  React Query를 필요한 곳에 적절히 사용하였는가
 - Features
     - [ ]  홈페이지가 SSG로 구현되어 있고 5초에 한 번씩 새롭게 페이지를 다시 생성하고 있는가
